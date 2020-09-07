@@ -1,0 +1,6 @@
+flask
+flask-restful
+pylint
+pytest
+pytest-cov
+
