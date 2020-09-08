@@ -3,28 +3,35 @@ pipeline {
     stages {
         stage('Setup and activate python venv for skills') {
             steps {
-                sh 'cd skills'
-                sh 'ls -la'
-                sh 'make setup'
-                sh 'source .skills/bin/activate'
+                dir("skills") {
+                    sh 'ls -la'
+                    sh 'make setup'
+                    sh 'source .skills/bin/activate'
+                }
             }
         }
         stage('Install dependencies')
         {
             steps {
-                sh 'make install'
+                dir("skills") {
+                    sh 'make install'
+                }
             }
         }
         stage('Linting python code')
         {
             steps {
-                sh 'make lint'
+                dir("skills") {
+                    sh 'make lint'
+                }
             }
         }
         stage('Running unit tests')
         {
             steps {
-                sh 'make test'
+                dir("skills") {
+                    sh 'make test'
+                }
             }
         }
     }
