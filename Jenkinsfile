@@ -4,6 +4,7 @@ pipeline {
         stage('Setup and activate python venv for skills') {
             steps {
                 sh 'cd skills'
+                sh 'ls -la'
                 sh 'make setup'
                 sh 'source .skills/bin/activate'
             }
