@@ -4,9 +4,10 @@ pipeline {
         stage('Setup and activate python venv for skills') {
             steps {
                 dir("skills") {
-                    sh 'ls -la'
-                    sh 'make setup'
-                    sh 'source .skills/bin/activate'
+                    sh """
+                        ls -la
+                        make setup
+                    """
                 }
             }
         }
@@ -14,7 +15,10 @@ pipeline {
         {
             steps {
                 dir("skills") {
-                    sh 'make install'
+                    sh """
+                        source .skills/bin/activate
+                        make install
+                    """
                 }
             }
         }
@@ -22,7 +26,10 @@ pipeline {
         {
             steps {
                 dir("skills") {
-                    sh 'make lint'
+                    sh """
+                        source .skills/bin/activate
+                        make lint
+                    """
                 }
             }
         }
@@ -30,7 +37,10 @@ pipeline {
         {
             steps {
                 dir("skills") {
-                    sh 'make test'
+                    sh """
+                        source .skills/bin/activate
+                        make test
+                    """
                 }
             }
         }
