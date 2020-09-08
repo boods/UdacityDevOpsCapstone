@@ -16,6 +16,7 @@ pipeline {
             steps {
                 dir("skills") {
                     sh """
+                        ls -la
                         source .skills/bin/activate
                         make install
                     """
