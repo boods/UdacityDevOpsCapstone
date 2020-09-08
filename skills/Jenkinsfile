@@ -1,7 +1,10 @@
 pipeline {
     agent any
     stages {
-        stage('Setup and activate python venv') {
+        stage('Setup and activate python venv for skills') {
+            echo 'cd skills'
+            sh 'cd skills'
+
             echo 'Run: make setup'
             sh 'make setup'
             
