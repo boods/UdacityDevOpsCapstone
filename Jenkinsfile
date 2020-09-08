@@ -17,7 +17,7 @@ pipeline {
                 dir("skills") {
                     sh """
                         ls -la
-                        source .skills/bin/activate
+                        . .skills/bin/activate
                         make install
                     """
                 }
@@ -28,7 +28,7 @@ pipeline {
             steps {
                 dir("skills") {
                     sh """
-                        source .skills/bin/activate
+                        . .skills/bin/activate
                         make lint
                     """
                 }
@@ -39,7 +39,7 @@ pipeline {
             steps {
                 dir("skills") {
                     sh """
-                        source .skills/bin/activate
+                        . .skills/bin/activate
                         make test
                     """
                 }
