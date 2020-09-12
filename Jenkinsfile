@@ -50,7 +50,7 @@ pipeline {
             steps {
                 dir("skills") {
                     sh """
-                        build_docker.sh
+                        ./build_docker.sh
                     """
                 }
             }
