@@ -45,5 +45,15 @@ pipeline {
                 }
             }
         }
+        stage('Build and upload docker')
+        {
+            steps {
+                dir("skills") {
+                    sh """
+                        build_docker.sh
+                    """
+                }
+            }
+        }
     }
 }
