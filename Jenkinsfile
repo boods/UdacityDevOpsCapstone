@@ -49,8 +49,10 @@ pipeline {
         {
             steps {
                 dir("skills") {
-                    def customImage = docker.build("capstone-skills:${env.BUILD_ID}")
-                    customImage.push('latest')
+                    node {
+                        def customImage = docker.build("capstone-skills:${env.BUILD_ID}")
+                        customImage.push('latest')
+                    }
                 }
             }
         }
