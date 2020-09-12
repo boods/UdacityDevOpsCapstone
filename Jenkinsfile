@@ -49,7 +49,7 @@ pipeline {
             steps {
                 dir("skills") {
                     script { 
-                        dockerImage = docker.build "capstone-skills:$BUILD_NUMBER" 
+                        dockerImage = docker.build "youngphillip/capstone-skills:$BUILD_NUMBER" 
                         docker.withRegistry( '', 'dockerhub' ) { 
                             dockerImage.push() 
                         }
