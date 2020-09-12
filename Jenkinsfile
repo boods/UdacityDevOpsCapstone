@@ -45,16 +45,17 @@ pipeline {
                 }
             }
         }
-        stage('Build and upload docker')
-        {
+        stage('Build the docker image') {
             steps {
                 dir("skills") {
-                    script {
-                        def customImage = docker.build("capstone-skills:${env.BUILD_ID}")
-                        customImage.push('latest')
+                    script { 
+                        dockerImage = docker.build "capstone-skills:$BUILD_NUMBER" 
+                        docker.withRegistry( '', 'youngphillip' ) { 
+                            dockerImage.push() 
+                        }
                     }
                 }
-            }
+            } 
         }
     }
 }
