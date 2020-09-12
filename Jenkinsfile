@@ -50,7 +50,7 @@ pipeline {
                 dir("skills") {
                     script { 
                         dockerImage = docker.build "capstone-skills:$BUILD_NUMBER" 
-                        docker.withRegistry( '', 'youngphillip' ) { 
+                        docker.withRegistry( '', 'dockerhub' ) { 
                             dockerImage.push() 
                         }
                     }
