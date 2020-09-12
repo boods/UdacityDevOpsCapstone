@@ -51,7 +51,7 @@ pipeline {
                 dir("skills") {
                     sh """
                         chmod u+x build_docker.sh
-                        ./build_docker.sh
+                        sudo ./build_docker.sh
                     """
                 }
             }
