@@ -1,0 +1,22 @@
+---
+    apiVersion: apps/v1
+    kind: Deployment
+    metadata:
+      name: skills-deployment
+      labels:
+        app: skills
+    spec:
+      replicas: 1
+      selector:
+        matchLabels:
+          app: skills
+      template:
+        metadata:
+          labels:
+            app: skills
+        spec:
+          containers:
+          - name: helloworld
+            image: youngphillip/capstone-skills
+            ports:
+            - containerPort: 5000
