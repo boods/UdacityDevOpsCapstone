@@ -286,6 +286,130 @@ Resources:
             RouteTableId: !Ref PrivateSubnet3RouteTable
             SubnetId: !Ref PrivateSubnet3
 
+    BastionRole:
+        Type: AWS::IAM::Role
+        Properties:
+            AssumeRolePolicyDocument:
+                Version: '2012-10-17'
+                Statement:
+                    - Effect: Allow
+                      Principal:
+                        Service:
+                            - ec2.amazonaws.com
+                      Action:
+                        - sts:AssumeRole
+            Path: '/'
+
+    BastionPolicy:
+        Type: AWS::IAM::Policy
+        Properties:
+            PolicyName: BastionPolicy
+            PolicyDocument:
+                Version: '2012-10-17'
+                Statement:
+                    - Effect: Allow
+                      Action: 's3:*'
+                      Resource: '*'
+            Roles:
+            - !Ref BastionRole
+    
+    BastionInstanceProfile:
+        Type: AWS::IAM::InstanceProfile
+        Properties:
+            Path: '/'
+            Roles:
+            - !Ref BastionRole
+    
+    BastionSecurityGroup:
+        Type: AWS::EC2::SecurityGroup
+        Properties:
+            GroupDescription: Security group for bastion hosts
+            VpcId: !Ref VPC
+            SecurityGroupEgress:
+            - IpProtocol: tcp
+              FromPort: 0
+              ToPort: 65535
+              CidrIp: 0.0.0.0/0
+            SecurityGroupIngress:
+            - IpProtocol: tcp
+              FromPort: '22'
+              ToPort: '22'
+              CidrIp: 0.0.0.0/0
+                
+    BastionHost1:
+        Type: AWS::EC2::Instance
+        DependsOn:
+            - BastionSecurityGroup
+            - BastionInstanceProfile
+        Properties:
+            UserData:
+                Fn::Base64: !Sub |
+                    #!/bin/bash
+                    apt-get update -y
+                    apt-get install unzip awscli -y
+            IamInstanceProfile: !Ref BastionInstanceProfile
+            SecurityGroupIds:
+            - Ref: BastionSecurityGroup
+            SubnetId: !Ref PublicSubnet1
+            ImageId: ami-005bdb005fb00e791
+            InstanceType: t3.small
+            KeyName: !Sub ${KeyPairName}
+    
+    BastionHost1EIP:
+        Type: AWS::EC2::EIP
+        Properties:
+            Domain: vpc
+    
+    EIPAssociation1:
+        Type: AWS::EC2::EIPAssociation
+        DependsOn:
+            - BastionHost1
+            - BastionHost1EIP
+        Properties:
+            InstanceId:
+                Ref: BastionHost1
+            AllocationId:
+                Fn::GetAtt:
+                    - BastionHost1EIP
+                    - AllocationId
+                            
+    BastionHost2:
+        Type: AWS::EC2::Instance
+        DependsOn:
+            - BastionSecurityGroup
+            - BastionInstanceProfile
+        Properties:
+            UserData:
+                Fn::Base64: !Sub |
+                    #!/bin/bash
+                    apt-get update -y
+                    apt-get install unzip awscli -y
+            IamInstanceProfile: !Ref BastionInstanceProfile
+            SecurityGroupIds:
+                - Ref: BastionSecurityGroup
+            SubnetId: !Ref PublicSubnet2
+            ImageId: ami-005bdb005fb00e791
+            InstanceType: t3.small
+            KeyName: !Sub ${KeyPairName}
+    
+    BastionHost2EIP:
+        Type: AWS::EC2::EIP
+        Properties:
+            Domain: vpc
+    
+    EIPAssociation2:
+        Type: AWS::EC2::EIPAssociation
+        DependsOn:
+            - BastionHost2
+            - BastionHost2EIP
+        Properties:
+            InstanceId:
+                Ref: BastionHost2
+            AllocationId:
+                Fn::GetAtt:
+                    - BastionHost2EIP
+                    - AllocationId
+            
 Outputs:
 
     VPC:
@@ -342,3 +466,15 @@ Outputs:
         Value: !Join [ ",", [ !Ref PrivateSubnet1, !Ref PrivateSubnet2, !Ref PrivateSubnet3 ]]
         Export:
             Name: !Sub ${EnvironmentName}-PrivateSubnets
+
+    BastionHost1IP:
+        Description: 'BastionHost1Ip'
+        Value: !Sub 'http://${BastionHost1.PublicIp}'
+        Export:
+            Name: BastionHost1Ip
+
+    BastionHost2IP:
+        Description: 'BastionHost2IP'
+        Value: !Sub 'http://${BastionHost2.PublicIp}'
+        Export:
+            Name: BastionHost2IP
