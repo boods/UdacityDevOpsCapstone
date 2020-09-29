@@ -34,5 +34,17 @@
     {
         "ParameterKey":"PublicSubnet3CIDR",
         "ParameterValue":"10.1.6.0/24"
+    }, 
+    {
+        "ParameterKey":"NodeImageId",
+        "ParameterValue":"ami-005bdb005fb00e791"
+    }, 
+    {
+        "ParameterKey":"NodeImageType",
+        "ParameterValue":"t3.medium"
+    }, 
+    {
+        "ParameterKey":"BastionHostImageId",
+        "ParameterValue":"ami-005bdb005fb00e791"
     }
 ]
