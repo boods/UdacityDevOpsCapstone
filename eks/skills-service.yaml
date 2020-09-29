@@ -4,7 +4,7 @@ metadata:
   name: "skills-service"
 spec:
   selector:
-    app: skills
+    app: skills-webserver
   type: LoadBalancer
   ports:
   - protocol: TCP

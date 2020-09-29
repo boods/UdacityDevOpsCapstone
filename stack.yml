@@ -6,61 +6,26 @@ Parameters:
     EnvironmentName: 
         Description: The environment name used as the prefix on all resources
         Type: String
-    
+
     KeyPairName: 
         Description: Name of an existing public/private key pair used to connect to the EKS cluster
         Type: AWS::EC2::KeyPair::KeyName
     
     VPCCIDR:
-        AllowedPattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(1[6-9]|2[0-8]))$
-        ConstraintDescription: CIDR block parameter must be in the form x.x.x.x/16-28
-        Default: 10.0.0.0/16
+        Default: 10.1.0.0/16
         Description: The CIDR block for the VPC
-        Type: String
-
-    PrivateSubnet1CIDR:
-        AllowedPattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(1[6-9]|2[0-8]))$
-        ConstraintDescription: CIDR block parameter must be in the form x.x.x.x/16-28
-        Default: 10.1.1.0/24
-        Description: The CIDR block for private subnet 1 located in Availability Zone 1
-        Type: String
-
-    PrivateSubnet2CIDR:
-        AllowedPattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(1[6-9]|2[0-8]))$
-        ConstraintDescription: CIDR block parameter must be in the form x.x.x.x/16-28
-        Default: 10.1.2.0/24
-        Description: The CIDR block for private subnet 2 located in Availability Zone 2
-        Type: String
-
-    PrivateSubnet3CIDR:
-        AllowedPattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(1[6-9]|2[0-8]))$
-        ConstraintDescription: CIDR block parameter must be in the form x.x.x.x/16-28
-        Default: 10.1.3.0/24
-        Description: The CIDR block for private subnet 3 located in Availability Zone 3
         Type: String
         
     PublicSubnet1CIDR:
-        AllowedPattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(1[6-9]|2[0-8]))$
-        ConstraintDescription: CIDR block parameter must be in the form x.x.x.x/16-28
-        Default: 10.1.4.0/24
+        Default: 10.1.1.0/24
         Description: CIDR block for the public (DMZ) subnet 1 located in Availability
             Zone 1
         Type: String
 
     PublicSubnet2CIDR:
-        AllowedPattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(1[6-9]|2[0-8]))$
-        ConstraintDescription: CIDR block parameter must be in the form x.x.x.x/16-28
-        Default: 10.1.5.0/24
+        Default: 10.1.2.0/24
         Description: The CIDR block for the public (DMZ) subnet 2 located in Availability
             Zone 2            
-        Type: String
-
-    PublicSubnet3CIDR:
-        AllowedPattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(1[6-9]|2[0-8]))$
-        ConstraintDescription: CIDR block parameter must be in the form x.x.x.x/16-28
-        Default: 10.1.6.0/24
-        Description: The CIDR block for the public (DMZ) subnet 3 located in Availability
-            Zone 3
         Type: String
 
     NodeImageId: 
@@ -120,87 +85,6 @@ Resources:
               Value: !Sub ${EnvironmentName} Public Subnet 2
             VpcId: !Ref VPC
 
-    PublicSubnet3: 
-        Type: AWS::EC2::Subnet
-        Properties: 
-            AvailabilityZone: !Select [2, !GetAZs '' ]
-            CidrBlock: !Ref PublicSubnet3CIDR
-            MapPublicIpOnLaunch: true
-            Tags: 
-            - Key: Name
-              Value: !Sub ${EnvironmentName} Public Subnet 3
-            VpcId: !Ref VPC
-                    
-
-    PrivateSubnet1:
-        Type: AWS::EC2::Subnet
-        Properties: 
-            AvailabilityZone: !Select [ 0, !GetAZs '' ]
-            CidrBlock: !Ref PrivateSubnet1CIDR
-            MapPublicIpOnLaunch: false
-            Tags: 
-            - Key: Name
-              Value: !Sub ${EnvironmentName} Private Subnet 1
-            VpcId: !Ref VPC
-
-    PrivateSubnet2:
-        Type: AWS::EC2::Subnet
-        Properties: 
-            AvailabilityZone: !Select [ 1, !GetAZs '' ]
-            CidrBlock: !Ref PrivateSubnet2CIDR
-            MapPublicIpOnLaunch: false
-            Tags: 
-            - Key: Name
-              Value: !Sub ${EnvironmentName} Private Subnet 2
-            VpcId: !Ref VPC
-            
-    PrivateSubnet3:
-        Type: AWS::EC2::Subnet
-        Properties: 
-            AvailabilityZone: !Select [ 2, !GetAZs '' ]
-            CidrBlock: !Ref PrivateSubnet3CIDR
-            MapPublicIpOnLaunch: false
-            Tags: 
-            - Key: Name
-              Value: !Sub ${EnvironmentName} Private Subnet 3
-            VpcId: !Ref VPC
-                
-    NatGateway1EIP: 
-        Type: AWS::EC2::EIP
-        DependsOn: InternetGatewayAttachment
-        Properties: 
-            Domain: vpc
-    
-    NatGateway2EIP: 
-        Type: AWS::EC2::EIP
-        DependsOn: InternetGatewayAttachment
-        Properties: 
-            Domain: vpc
-    
-    NatGateway3EIP: 
-        Type: AWS::EC2::EIP
-        DependsOn: InternetGatewayAttachment
-        Properties: 
-            Domain: vpc
-
-    NatGateway1: 
-        Type: AWS::EC2::NatGateway
-        Properties: 
-            AllocationId: !GetAtt NatGateway1EIP.AllocationId
-            SubnetId: !Ref PublicSubnet1
-    
-    NatGateway2: 
-        Type: AWS::EC2::NatGateway
-        Properties: 
-            AllocationId: !GetAtt NatGateway2EIP.AllocationId
-            SubnetId: !Ref PublicSubnet2
-
-    NatGateway3: 
-        Type: AWS::EC2::NatGateway
-        Properties: 
-            AllocationId: !GetAtt NatGateway3EIP.AllocationId
-            SubnetId: !Ref PublicSubnet3
-
     PublicRouteTable: 
         Type: AWS::EC2::RouteTable
         Properties: 
@@ -228,76 +112,7 @@ Resources:
         Properties: 
             RouteTableId: !Ref PublicRouteTable
             SubnetId: !Ref PublicSubnet2
-            
-    PublicSubnet3RouteTableAssociation: 
-        Type: AWS::EC2::SubnetRouteTableAssociation
-        Properties: 
-            RouteTableId: !Ref PublicRouteTable
-            SubnetId: !Ref PublicSubnet3
-                    
-    PrivateSubnet1RouteTable: 
-        Type: AWS::EC2::RouteTable
-        Properties: 
-            VpcId: !Ref VPC
-            Tags: 
-            - Key: Name
-              Value: !Sub ${EnvironmentName} PrivateSubnet 1 Routes
-        
-    DefaultPrivateSubnet1Route: 
-        Type: AWS::EC2::Route
-        Properties: 
-            RouteTableId: !Ref PrivateSubnet1RouteTable
-            DestinationCidrBlock: 0.0.0.0/0
-            NatGatewayId: !Ref NatGateway1
-    
-    PrivateSubnet1RouteTableAssociation:
-        Type: AWS::EC2::SubnetRouteTableAssociation
-        Properties:
-            RouteTableId: !Ref PrivateSubnet1RouteTable
-            SubnetId: !Ref PrivateSubnet1        
-
-    PrivateSubnet2RouteTable: 
-        Type: AWS::EC2::RouteTable
-        Properties: 
-            VpcId: !Ref VPC
-            Tags: 
-            - Key: Name
-              Value: !Sub ${EnvironmentName} PrivateSubnet 2 Routes
-        
-    DefaultPrivateSubnet2Route: 
-        Type: AWS::EC2::Route
-        Properties: 
-            RouteTableId: !Ref PrivateSubnet2RouteTable
-            DestinationCidrBlock: 0.0.0.0/0
-            NatGatewayId: !Ref NatGateway2
-    
-    PrivateSubnet2RouteTableAssociation:
-        Type: AWS::EC2::SubnetRouteTableAssociation
-        Properties:
-            RouteTableId: !Ref PrivateSubnet2RouteTable
-            SubnetId: !Ref PrivateSubnet2
- 
-    PrivateSubnet3RouteTable: 
-        Type: AWS::EC2::RouteTable
-        Properties: 
-            VpcId: !Ref VPC
-            Tags: 
-            - Key: Name
-              Value: !Sub ${EnvironmentName} PrivateSubnet 3 Routes
-        
-    DefaultPrivateSubnet3Route: 
-        Type: AWS::EC2::Route
-        Properties: 
-            RouteTableId: !Ref PrivateSubnet3RouteTable
-            DestinationCidrBlock: 0.0.0.0/0
-            NatGatewayId: !Ref NatGateway3
-    
-    PrivateSubnet3RouteTableAssociation:
-        Type: AWS::EC2::SubnetRouteTableAssociation
-        Properties:
-            RouteTableId: !Ref PrivateSubnet3RouteTable
-            SubnetId: !Ref PrivateSubnet3
-
+                
     BastionRole:
         Type: AWS::IAM::Role
         Properties:
@@ -442,18 +257,20 @@ Resources:
             - arn:aws:iam::aws:policy/AmazonEKSServicePolicy
             - arn:aws:iam::aws:policy/ElasticLoadBalancingFullAccess
 
-    EKSInstanceProfile:
-        Type: AWS::IAM::InstanceProfile
-        Properties:
-            Path: "/"
-            Roles:
-            - !Ref EKSInstanceRole
-    
     EKSClusterSecurityGroup:
         Type: AWS::EC2::SecurityGroup
         Properties:
             GroupDescription: Security group for EKS cluster
             VpcId: !Ref VPC
+
+    EKSSecurityGroupIngress:
+        Type: AWS::EC2::SecurityGroupIngress
+        Properties:
+            GroupId: !Ref EKSClusterSecurityGroup
+            IpProtocol: tcp
+            FromPort: 0
+            ToPort: 65535
+            SourceSecurityGroupId: !Ref EKSClusterSecurityGroup            
 
     EKSCluster:
         Type: "AWS::EKS::Cluster"
@@ -463,12 +280,8 @@ Resources:
                 SecurityGroupIds:
                     - !Ref EKSClusterSecurityGroup
                 SubnetIds:
-                    - !Ref PrivateSubnet1
-                    - !Ref PrivateSubnet2
-                    - !Ref PrivateSubnet3
                     - !Ref PublicSubnet1
                     - !Ref PublicSubnet2
-                    - !Ref PublicSubnet3
             RoleArn: !GetAtt EKSInstanceRole.Arn
     
     NodeInstanceRole:
@@ -489,143 +302,21 @@ Resources:
             - arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy
             - arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly
     
-    NodeInstanceProfile:
-        Type: AWS::IAM::InstanceProfile
+    EKSNodeGroup:
+        Type: AWS::EKS::Nodegroup
+        DependsOn: 
+            - NodeInstanceRole
+            - EKSCluster
         Properties:
-            Path: "/"
-            Roles:
-            - !Ref NodeInstanceRole
-
-    NodeSecurityGroup:
-        Type: AWS::EC2::SecurityGroup
-        Properties:
-            GroupDescription: Security group for cluster nodes
-            VpcId:
-                !Ref VPC   
-
-    NodeToNodeTraffic:
-        Type: AWS::EC2::SecurityGroupIngress
-        Properties:
-            Description: Allow traffic between nodes
-            GroupId: !Ref NodeSecurityGroup
-            SourceSecurityGroupId: !Ref NodeSecurityGroup
-            IpProtocol: tcp
-            FromPort: 0
-            ToPort: 65535
-    
-    InboundClusterToNodeTraffic:
-        Type: AWS::EC2::SecurityGroupIngress
-        Properties:
-            Description: Allow traffic from the EKS control plane to nodes on the node security group
-            GroupId: !Ref NodeSecurityGroup
-            SourceSecurityGroupId: !Ref EKSClusterSecurityGroup
-            IpProtocol: tcp
-            FromPort: 1025
-            ToPort: 65535
-
-    InboundNodeToClusterTrafficPortSSL:
-        Type: AWS::EC2::SecurityGroupIngress
-        Properties:
-            Description: Allow port 443 from the EKS control plane to nodes on the node security group
-            GroupId: !Ref NodeSecurityGroup
-            SourceSecurityGroupId: !Ref EKSClusterSecurityGroup
-            IpProtocol: tcp
-            FromPort: 443
-            ToPort: 443
-
-    OutboundClusterToNodeTraffic:
-        Type: AWS::EC2::SecurityGroupEgress
-        Properties:
-            Description: Allow traffic from the EKS control plane to nodes on the EKS cluster security group
-            GroupId: !Ref EKSClusterSecurityGroup
-            DestinationSecurityGroupId: !Ref NodeSecurityGroup
-            IpProtocol: tcp
-            FromPort: 1025
-            ToPort: 65535
-    
-    OutboundClusterToNodeTrafficPortSSL:
-        Type: AWS::EC2::SecurityGroupEgress
-        Properties:
-            Description: Allow port 443 from the EKS control plane to nodes on the EKS cluster security group
-            GroupId: !Ref EKSClusterSecurityGroup
-            DestinationSecurityGroupId: !Ref NodeSecurityGroup
-            IpProtocol: tcp
-            FromPort: 443
-            ToPort: 443
-
-    InboundClusterToNodeTrafficPortSSL:
-        Type: AWS::EC2::SecurityGroupIngress
-        Properties:
-            Description: Allow port 443 to the EKS control plane from nodes on the EKS cluster security group
-            GroupId: !Ref EKSClusterSecurityGroup
-            SourceSecurityGroupId: !Ref NodeSecurityGroup
-            IpProtocol: tcp
-            FromPort: 443
-            ToPort: 443
-
-    InboundTrafficWithinCluster:
-        Type: AWS::EC2::SecurityGroupIngress
-        Properties:
-            Description: Traffic between pods and the cluster API
-            GroupId: !Ref EKSClusterSecurityGroup
-            SourceSecurityGroupId: !Ref EKSClusterSecurityGroup
-            IpProtocol: tcp
-            FromPort: 0
-            ToPort: 65535
-
-    OutboundTrafficWithinCluster:
-        Type: AWS::EC2::SecurityGroupEgress
-        Properties:
-            Description: Traffic between pods and the cluster API
-            GroupId: !Ref EKSClusterSecurityGroup
-            SourceSecurityGroupId: !Ref EKSClusterSecurityGroup
-            IpProtocol: tcp
-            FromPort: 0
-            ToPort: 65535                    
-
-    NodeLaunchConfig:
-        Type: AWS::AutoScaling::LaunchConfiguration
-        Properties:
-            AssociatePublicIpAddress: 'False'
-            IamInstanceProfile: !Ref NodeInstanceProfile
-            ImageId: !Ref NodeImageId
-            InstanceType: !Ref NodeImageType
-            KeyName: !Sub ${KeyPairName}
-            SecurityGroups:
-            - !Ref NodeSecurityGroup
-            BlockDeviceMappings:
-                - DeviceName: /dev/xvda
-                  Ebs:
-                    VolumeSize: 20
-                    VolumeType: gp2
-                    DeleteOnTermination: true
-            UserData:
-                Fn::Base64:
-                    !Sub |
-                        #!/bin/bash
-                        set -o xtrace
-                        /etc/eks/bootstrap.sh ${EnvironmentName}-EKSCluster
-                        /opt/aws/bin/cfn-signal --exit-code $? \
-                                    --stack  ${AWS::StackName} \
-                                    --resource NodeGroup  \
-                                    --region ${AWS::Region}
-    
-    NodeAutoScalingGroup:
-        Type: AWS::AutoScaling::AutoScalingGroup
-        Properties:
-            DesiredCapacity: 3
-            LaunchConfigurationName: !Ref NodeLaunchConfig
-            MinSize: 3
-            MaxSize: 6
-            VPCZoneIdentifier:
-                - !Ref PrivateSubnet1
-                - !Ref PrivateSubnet2
-                - !Ref PrivateSubnet3
-        UpdatePolicy:
-            AutoScalingRollingUpdate:
-                MaxBatchSize: '1'
-                MinInstancesInService: 3
-                PauseTime: 'PT5M'
+            ClusterName: !Ref EKSCluster
+            NodeRole: !GetAtt NodeInstanceRole.Arn
+            ScalingConfig:
+                MinSize: 1
+                DesiredSize: 1
+                MaxSize: 3
+            Subnets:
+                - !Ref PublicSubnet1
+                - !Ref PublicSubnet2
 
 Outputs:
 
@@ -647,42 +338,12 @@ Outputs:
         Value: !Ref PublicSubnet2
         Export:
             Name: !Sub ${EnvironmentName}-PublicSubnet2
-    
-    PublicSubnet3:
-        Description: A reference to public subnet 3
-        Value: !Ref PublicSubnet3
-        Export:
-            Name: !Sub ${EnvironmentName}-PublicSubnet3
-
-    PrivateSubnet1:
-        Description: A reference to the created PrivateSubnet1
-        Value: !Ref PrivateSubnet1
-        Export:
-            Name: !Sub ${EnvironmentName}-PrivateSubnet1
-    
-    PrivateSubnet2:
-        Description: A reference to the created PrivateSubnet2
-        Value: !Ref PrivateSubnet2
-        Export:
-            Name: !Sub ${EnvironmentName}-PrivateSubnet2
-    
-    PrivateSubnet3:
-        Description: A reference to the created PrivateSubnet3
-        Value: !Ref PrivateSubnet3
-        Export:
-            Name: !Sub ${EnvironmentName}-PrivateSubnet3
 
     PublicSubnets:
         Description: A list of the public subnets
-        Value: !Join [ ",", [ !Ref PublicSubnet2, !Ref PublicSubnet2, !Ref PublicSubnet3 ]]
+        Value: !Join [ ",", [ !Ref PublicSubnet2, !Ref PublicSubnet2 ]]
         Export:
             Name: !Sub ${EnvironmentName}-PublicSubnets
-    
-    PrivateSubnets:
-        Description: A list of the private subnets
-        Value: !Join [ ",", [ !Ref PrivateSubnet1, !Ref PrivateSubnet2, !Ref PrivateSubnet3 ]]
-        Export:
-            Name: !Sub ${EnvironmentName}-PrivateSubnets
 
     BastionHost1IP:
         Description: 'BastionHost1Ip'

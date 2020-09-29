@@ -2,21 +2,22 @@
     apiVersion: apps/v1
     kind: Deployment
     metadata:
-      name: skills-deployment
+      name: skills-webserver
       labels:
-        app: skills
+        app: skills-webserver
     spec:
       replicas: 1
       selector:
         matchLabels:
-          app: skills
+          app: skills-webserver
       template:
         metadata:
           labels:
-            app: skills
+            app: skills-webserver
         spec:
           containers:
-          - name: helloworld
-            image: youngphillip/capstone-skills
+          - name: skills-webserver
+            image: youngphillip/capstone-skills:latest
+            imagePullPolicy: Always
             ports:
             - containerPort: 5000
