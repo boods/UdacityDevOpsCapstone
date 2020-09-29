@@ -57,23 +57,22 @@ pipeline {
                 }
             } 
         }
-
         stage('Deployment') {
             steps {
                 dir("eks") {
-                    script {
+                    sh """
                         kubectl apply -f skills.yaml
                         kubectl apply -f skills-service.yaml
-                    }
+                    """
                 }
             }
         }        
 
         stage('Rolling Deployment') {
             steps {
-                script {
+                sh """
                     kubectl rollout restart deployment/skills-webserver
-                }
+                """
             }
         }
     }
