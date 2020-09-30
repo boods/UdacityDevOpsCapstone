@@ -60,21 +60,25 @@ pipeline {
         stage('Deployment') {
             steps {
                 dir("eks") {
-                    sh """
-                        echo $HOME
-                        cat $HOME/.kube/config
-                        kubectl apply -f skills.yaml
-                        kubectl apply -f skills-service.yaml
-                    """
+                    withAWS(region: 'us-west-2', credentials: 'aws-static') {
+                        sh """
+                            echo $HOME
+                            cat $HOME/.kube/config
+                            kubectl apply -f skills.yaml
+                            kubectl apply -f skills-service.yaml
+                        """
+                    }
                 }
             }
         }        
 
         stage('Rolling Deployment') {
             steps {
-                sh """
-                    kubectl rollout restart deployment/skills-webserver
-                """
+                withAWS(region: 'us-west-2', credentials: 'aws-static') {
+                    sh """
+                        kubectl rollout restart deployment/skills-webserver
+                    """
+                }
             }
         }
     }
