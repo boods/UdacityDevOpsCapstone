@@ -61,6 +61,8 @@ pipeline {
             steps {
                 dir("eks") {
                     sh """
+                        echo $HOME
+                        cat $HOME/.kube/config
                         kubectl apply -f skills.yaml
                         kubectl apply -f skills-service.yaml
                     """

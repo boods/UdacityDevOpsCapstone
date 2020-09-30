@@ -39,6 +39,11 @@ Parameters:
     BastionHostImageId: 
         Description: AMI for the Bastion hosts
         Type: String
+
+    EKSClusterRole: 
+        Description: EKS cluster role
+        Type: String
+        Default: arn:aws:iam::837674287202:role/eksClusterRole
     
 Resources: 
     VPC:
@@ -239,24 +244,6 @@ Resources:
                     - BastionHost2EIP
                     - AllocationId
 
-    EKSInstanceRole:
-        Type: AWS::IAM::Role
-        Properties:
-            AssumeRolePolicyDocument:
-                Version: '2012-10-17'
-                Statement:
-                - Effect: Allow
-                  Principal:
-                    Service:
-                    - eks.amazonaws.com
-                  Action:
-                  - sts:AssumeRole
-            Path: "/"
-            ManagedPolicyArns:
-            - arn:aws:iam::aws:policy/AmazonEKSClusterPolicy
-            - arn:aws:iam::aws:policy/AmazonEKSServicePolicy
-            - arn:aws:iam::aws:policy/ElasticLoadBalancingFullAccess
-
     EKSClusterSecurityGroup:
         Type: AWS::EC2::SecurityGroup
         Properties:
@@ -282,7 +269,7 @@ Resources:
                 SubnetIds:
                     - !Ref PublicSubnet1
                     - !Ref PublicSubnet2
-            RoleArn: !GetAtt EKSInstanceRole.Arn
+            RoleArn: !Ref EKSClusterRole
     
     NodeInstanceRole:
         Type: AWS::IAM::Role
