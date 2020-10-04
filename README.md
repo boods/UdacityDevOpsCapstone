@@ -1,5 +1,4 @@
-# UdacityDevOpsCapstone
-Capstone for Udacity Cloud DevOps
+# Capstone for Udacity Cloud DevOps
 
 ## Git Repo
 https://github.com/boods/UdacityDevOpsCapstone
