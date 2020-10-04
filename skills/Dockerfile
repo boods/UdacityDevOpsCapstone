@@ -13,8 +13,6 @@ RUN pip install --upgrade pip &&\
 # Expose port 5000
 EXPOSE 5000
 
-Fail me please hadolint
-
 # Run app.py at container launch
 CMD ["python", "skills.py"]
 
