@@ -26,14 +26,14 @@ The following diagram depicts the typical pipline flow:
 ## Soure Code
 
 The repo consists for the following: 
-* infrastructure - AWS cloudformation templates for setting up the target environment, and bash scripts to create, update and delete the environment
-* skills - the python application (skills.py), Makefile, DockerFile, and requirements.txt (detailing python library dependencies)
-* skills/tests - python unit tests (test_skills.py)
+* Jenkinsfile - the build pipline file used by the Jenkins instance
 * skills.yaml - kubernetes manifest for the skills webserver
-* *skills-service.yaml - kubernetes manifest for the kubernetes load balancer
+* skills-service.yaml - kubernetes manifest for the kubernetes load balancer
+* skills/tests - python unit tests (test_skills.py)
+* infrastructure/ - AWS cloudformation templates for setting up the target environment, and bash scripts to create, update and delete the environment
+* skills/ - the python application (skills.py), Makefile, DockerFile, and requirements.txt (detailing python library dependencies)
 
 ## Proving the pipline
-
 
 ### Linting
 
