@@ -1,8 +1,6 @@
 from flask import Flask
 from flask_restful import Resource, Api
 
-I cannot be linted
-
 app = Flask(__name__)
 api = Api(app)
 
