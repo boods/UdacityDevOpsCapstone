@@ -12,6 +12,6 @@ test:
 
 lint: 
 	pylint --disable=R,C,W1203 skills.py
-	hadolint Dockerfile
+	hadolint --ignore DL3013 Dockerfile
 
 all: install lint test

@@ -1,6 +1,6 @@
-flask
-flask-restful
-pylint
-pytest
-pytest-cov
+flask==1.1.2
+flask-restful==0.3.8
+pylint==2.6.0
+pytest==4.6.11
+pytest-cov==2.10.1
 
