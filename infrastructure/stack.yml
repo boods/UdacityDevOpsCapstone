@@ -1,6 +1,6 @@
 Description: 
-    This template creates a VPC, with private and public subnets across three availability zones, 
-    and an EKS cluster.
+    This template creates a VPC, with 2 public subnets (in two different availability zones),
+    an EKS cluster and node group, and 2 bastion hosts (one in each subnet)
 
 Parameters:
     EnvironmentName: 
