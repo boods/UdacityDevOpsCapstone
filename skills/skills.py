@@ -22,7 +22,8 @@ class Skills(Resource):
            "sautille" : {"hand": "right"},           
            "richochet" : {"hand": "right"},           
            "three note chords" : {"hand": "right"},           
-           "four note chords" : {"hand": "right"}
+           "four note chords" : {"hand": "right"},
+           "fast scales" : {"hand": "left"}
         }
 
 api.add_resource(Skills, "/")
