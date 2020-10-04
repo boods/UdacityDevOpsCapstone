@@ -38,37 +38,37 @@ The repo consists for the following:
 ### Linting
 
 Make a breaking change to the python code and check it into github: 
-![alt text](https://github.com/boods/UdacityDevOpsCapstone/tree/master/docs/1_breaking_python_change.png "Breaking Python Change")
+![Breaking Python Change](https://raw.githubusercontent.com/boods/UdacityDevOpsCapstone/master/docs/1_breaking_python_change.png)
 
 Confirm that the build fails on the pylint step: 
-![alt text](https://github.com/boods/UdacityDevOpsCapstone/tree/master/docs/2_build_failure_pylint.png "Failing pylint")
+![Failing pylint](https://raw.githubusercontent.com/boods/UdacityDevOpsCapstone/master/docs/2_build_failure_pylint.png "Failing pylint")
 
 Fix the python error, but make a breaking change to the dockerfile and check that into git hub: 
-![alt text](https://github.com/boods/UdacityDevOpsCapstone/tree/master/docs/3_breaking_dockerfile_change.png "Breaking dockerfile")
+![Breaking dockerfile](https://raw.githubusercontent.com/boods/UdacityDevOpsCapstone/master/docs/3_breaking_dockerfile_change.png "Breaking dockerfile")
 
 Confirm that the build is still failing, this time on the hadolint step: 
-![alt text](https://github.com/boods/UdacityDevOpsCapstone/tree/master/docs/4_build_failure_hadolint.png "Failing hadolint")
+![Failing hadolint](https://raw.githubusercontent.com/boods/UdacityDevOpsCapstone/master/docs/4_build_failure_hadolint.png "Failing hadolint")
 
 Fix the dockerfile issue, commit the change and confirm that the linting is successful
-![alt text](https://github.com/boods/UdacityDevOpsCapstone/tree/master/docs/5_successful_linting.png "Successful linting")
+![Successful linting](https://raw.githubusercontent.com/boods/UdacityDevOpsCapstone/master/docs/5_successful_linting.png "Successful linting")
 
 And full deployment is working: 
-![alt text](https://github.com/boods/UdacityDevOpsCapstone/tree/master/docs/6_rolling_deployment.png "Successful deployment")
+![Successful deployment](https://raw.githubusercontent.com/boods/UdacityDevOpsCapstone/master/docs/6_rolling_deployment.png "Successful deployment")
 
 
 ### Rolling Deployment
 
 View the output with curl prior to deployment: 
-![alt text](https://github.com/boods/UdacityDevOpsCapstone/tree/master/docs/7_curl_output.png "Output before deployment")
+![Output before deployment](https://raw.githubusercontent.com/boods/UdacityDevOpsCapstone/master/docs/7_curl_output.png "Output before deployment")
 
 Make a small change to the skills.py to publish a new skill, and commit the change: 
-![alt text](https://github.com/boods/UdacityDevOpsCapstone/tree/master/docs/8_code_change.png "Change code and commit")
+![Change code and commit](https://raw.githubusercontent.com/boods/UdacityDevOpsCapstone/master/docs/8_code_change.png "Change code and commit")
 
 Confirm the rolling deployment is performed by Jenkins:
-![alt text](https://github.com/boods/UdacityDevOpsCapstone/tree/master/docs/9_rolling_deployment.png "Rolling Deployment in Jenkin")
+![Rolling Deployment in Jenkin](https://raw.githubusercontent.com/boods/UdacityDevOpsCapstone/master/docs/9_rolling_deployment.png "Rolling Deployment in Jenkin")
 
 Confirm the output with curl after deployment - notice the additional skill appearing: 
-![alt text](https://github.com/boods/UdacityDevOpsCapstone/tree/master/docs/10_output_after_deployment.png "Output after deployment")
+![Output after deployment](https://raw.githubusercontent.com/boods/UdacityDevOpsCapstone/master/docs/10_output_after_deployment.png "Output after deployment")
 
 Perform a test where an EC2 instance in the cluster is taken offline, and a replacement instance started: 
-![alt text](https://github.com/boods/UdacityDevOpsCapstone/tree/master/docs/11_auto_scaling.png "Auto scaling ECs")
+![Auto scaling ECs](https://raw.githubusercontent.com/boods/UdacityDevOpsCapstone/master/docs/11_auto_scaling.png "Auto scaling ECs")
