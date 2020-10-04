@@ -23,7 +23,7 @@ pipeline {
                 }
             }
         }
-        stage('Linting python code')
+        stage('Linting python code and dockerfile')
         {
             steps {
                 dir("skills") {
@@ -59,15 +59,13 @@ pipeline {
         }
         stage('Deployment') {
             steps {
-                dir("eks") {
-                    withAWS(region: 'us-west-2', credentials: 'aws-static') {
-                        sh """
-                            echo $HOME
-                            cat $HOME/.kube/config
-                            kubectl apply -f skills.yaml
-                            kubectl apply -f skills-service.yaml
-                        """
-                    }
+                withAWS(region: 'us-west-2', credentials: 'aws-static') {
+                    sh """
+                        echo $HOME
+                        cat $HOME/.kube/config
+                        kubectl apply -f skills.yaml
+                        kubectl apply -f skills-service.yaml
+                    """
                 }
             }
         }        
