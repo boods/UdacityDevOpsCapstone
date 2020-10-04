@@ -51,7 +51,7 @@ pipeline {
                     script { 
                         dockerImage = docker.build "youngphillip/capstone-skills:$BUILD_NUMBER" 
                         docker.withRegistry( '', 'dockerhub' ) { 
-                            dockerImage.push() 
+                            dockerImage.push( "latest" ) 
                         }
                     }
                 }
