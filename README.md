@@ -21,7 +21,7 @@ The pipeline will work as follows:
 7. Finally, jenkins will perform a rolling update on the kubernetes cluster
 
 The following diagram depicts the typical pipline flow: 
-![Planning](https://github.com/boods/UdacityDevOpsCapstone/master/docs/UdacityDevOpsCapstone.jpeg)
+![Planning](https://raw.githubusercontent.com/boods/UdacityDevOpsCapstone/master/docs/UdacityDevOpsCapstone.jpeg)
 
 ## Soure Code
 
